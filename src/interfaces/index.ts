@@ -31,3 +31,29 @@ export interface IPageNumbersSectionProps {
   searchQuery: string;
 }
 
+export interface IDetailsSection {
+  bookDetails: IBookDetails;
+}
+
+export interface IBookDetails {
+  key: string;
+  title: string;
+  covers?: number[];
+  excerpts?: Excerpt[];
+  subjects?: string[];
+  links?: Link[];
+}
+export interface Type {
+  key: string;
+}
+
+export interface Excerpt {
+  excerpt: string;
+}
+
+export interface Link {
+  url: string;
+  title: string;
+  type: Type;
+}
+

@@ -8,7 +8,7 @@ function Home() {
     // Always do navigations after the first render
     router.push({
       pathname: '/1',
-      query: { q: '', limit: '20' },
+      query: { q: 'red', limit: '10' },
     });
 }, []);
 }

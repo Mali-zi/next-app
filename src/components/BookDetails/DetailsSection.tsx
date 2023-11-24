@@ -1,4 +1,4 @@
-import { IDetailsSection } from '../../models';
+import { IDetailsSection } from '@/interfaces';
 import { useRouter } from 'next/router';
 
 const DetailsSection = ({ bookDetails }: IDetailsSection) => {
@@ -32,7 +32,7 @@ const DetailsSection = ({ bookDetails }: IDetailsSection) => {
               type="button"
               data-testid="close"
               className="btn btn-primary"
-              onClick={() => router.push(`/${curentPage}`)}
+              onClick={() => router.push(`/`)}
             >
               Close
             </button>

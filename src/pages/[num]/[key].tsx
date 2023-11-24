@@ -1,28 +1,32 @@
-import DetailsSection from './DetailsSection';
 import { useRouter } from 'next/router';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-import { IData } from '@/interfaces';
+import { IBookDetails, IData } from '@/interfaces';
 import { BASE_URL } from '@/utils/const';
 import { encode } from 'querystring';
+import DetailsSection from '@/components/BookDetails/DetailsSection';
+import { ParsedUrlQuery } from "querystring";
 
-type Props = {
-  params: {
-    key: string;
-  };
-};
+interface Params extends ParsedUrlQuery {
+  key: string;
+}
+
+// type IParams = {
+//   params: {
+//     num: string;
+//     key: string;
+//   };
+// };
 
 export const getServerSideProps = (async (context) => {
   // const searchQuery = context.query.q;
   // const booksPerPage = context.query.limit;
   // const curentPage = context.query.num;
-  const { query } = context;
-  const params = encode(query);
-
+  const { num, key } = context.params as Params;
   // const params = context.params as string;
 
   console.log('context', context);
 
-  const url = BASE_URL + `works/${params}.json`;
+  const url = BASE_URL + `works/${key}.json`;
   const res = await fetch(url);
   const data = await res.json();
 
@@ -34,14 +38,14 @@ export const getServerSideProps = (async (context) => {
 
   return { props: { data } };
 }) satisfies GetServerSideProps<{
-  data: IData;
+  data: IBookDetails;
 }>;
 
 export default function BookDetails({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
-
+  console.log('data', data);
   if (data) {
     return (
       <div className="col">
