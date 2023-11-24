@@ -1,10 +1,15 @@
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 
 export default function TopSection() {
+  const router = useRouter();
+
   const [value, setValue] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [isValid, setIsValid] = useState(true);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const booksPerPageArray: number[] = [10, 20, 30, 40, 50];
+  const [booksPerPage, setBooksPerPage] = useState<string>('20');
+  const booksPerPageArray: string[] = ['20', '30', '40', '50'];
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setValue(e.target.value);
@@ -16,7 +21,11 @@ export default function TopSection() {
     e.preventDefault();
     const query = value.trim();
     if (query) {
-      dispatch(setSearchQuery(query));
+      router.push({
+        pathname: '/1',
+        query: { q: query, limit: booksPerPage },
+      });
+      setSearchQuery(query);
       setIsValid(true);
       setIsSubmitted(true);
     } else {
@@ -24,7 +33,15 @@ export default function TopSection() {
     }
   }
 
-  const booksPerPageSection = useCallback(() => {
+  function handleBooksPerPage(e: React.ChangeEvent<HTMLSelectElement>) {
+    setBooksPerPage(e.target.value);
+    router.push({
+      pathname: '/1',
+      query: { q: searchQuery, limit: e.target.value },
+    });
+  }
+
+  const booksPerPageSection =() => {
     const list = booksPerPageArray.map((item, index) => (
       <option key={index} className="text-bg-light fs-5 p-2" value={item}>
         {item}
@@ -32,11 +49,7 @@ export default function TopSection() {
     ));
 
     return list;
-  }, []);
-
-  useEffect(() => {
-    navigate(`/1`);
-  }, []);
+  };
 
   return (
     <>
@@ -51,9 +64,7 @@ export default function TopSection() {
               data-testid="selectedNumber"
               className="btn btn-secondary dropdown-toggle"
               value={booksPerPage}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                dispatch(selectNumber(Number(e.target.value)))
-              }
+              onChange={(e) => handleBooksPerPage(e)}
             >
               {booksPerPageSection()}
             </select>
@@ -92,7 +103,6 @@ export default function TopSection() {
         </div>
       </section>
       <hr />
-      <Outlet />
     </>
   );
 }
