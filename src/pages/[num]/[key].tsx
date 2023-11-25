@@ -1,28 +1,30 @@
-import { useRouter } from 'next/router';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-import { IBookDetails, IData } from '@/interfaces';
+import { IBookDetails, IBook } from '@/interfaces';
 import { BASE_URL } from '@/utils/const';
-import { encode } from 'querystring';
-import DetailsSection from '@/components/BookDetails/DetailsSection';
 import { ParsedUrlQuery } from "querystring";
+import DataContext from '@/components/ResultSection/ResultSection';
+import ResultSection from '@/components/ResultSection/ResultSection';
+import { useContext } from 'react';
+import BookDetails from '@/components/BookDetails/BookDetails';
 
 interface Params extends ParsedUrlQuery {
   key: string;
 }
 
-// type IParams = {
-//   params: {
-//     num: string;
-//     key: string;
-//   };
-// };
+interface IDetailsProps {
+  key: string;
+  title: string;
+  covers?: number[];
+}
 
-export const getServerSideProps = (async (context) => {
-  // const searchQuery = context.query.q;
-  // const booksPerPage = context.query.limit;
-  // const curentPage = context.query.num;
+interface IDataContext {
+  numFound: number;
+  books: IBook[]
+}
+
+
+export const getServerSideProps: GetServerSideProps<IDetailsProps> = (async (context) => {
   const { num, key } = context.params as Params;
-  // const params = context.params as string;
 
   console.log('context', context);
 
@@ -36,27 +38,18 @@ export const getServerSideProps = (async (context) => {
     };
   }
 
-  return { props: { data } };
-}) satisfies GetServerSideProps<{
-  data: IBookDetails;
-}>;
+  return { props: { key: data.key, title: data.title, covers: data.covers } };
+});
 
-export default function BookDetails({
-  data,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const router = useRouter();
-  console.log('data', data);
-  if (data) {
-    return (
-      <div className="col">
-        <DetailsSection bookDetails={data} />
-      </div>
-    );
-  } else {
-    return (
-      <div className="col">
-        <h2> Nothing found, try again! </h2>
-      </div>
-    );
-  }
+export default function Details({
+  key, title, covers
+}: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
+  // const books = useContext(DataContext);
+  const books = useContext<IDataContext>(DataContext);
+  return (
+    <div className="row">
+      <ResultSection numFound={numFound} books={books} />
+      <BookDetails key={key} title={title} covers={covers} />
+    </div>
+  );
 }
