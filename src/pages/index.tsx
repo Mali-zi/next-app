@@ -9,7 +9,7 @@ function Home() {
       pathname: '/1',
       query: { q: 'green', limit: '4' },
     });
-}, []);
+  }, []);
 }
 
 export default Home;
