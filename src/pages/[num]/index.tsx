@@ -1,12 +1,7 @@
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-import { IBook } from '@/interfaces';
+import { IProps } from '@/interfaces';
 import { BASE_URL } from '@/utils/const';
 import ResultSection from '@/components/ResultSection/ResultSection';
-
-interface IProps {
-  numFound: number;
-  books: IBook[];
-}
 
 export const getServerSideProps: GetServerSideProps<IProps> = async (
   context
@@ -37,13 +32,8 @@ export default function Page({
   numFound,
   books,
 }: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
-
   localStorage.setItem('numFound', JSON.stringify(numFound));
   localStorage.setItem('books', JSON.stringify(books));
 
-  return (
-    <div>
-      <ResultSection />
-    </div>
-  );
+  return <ResultSection />;
 }

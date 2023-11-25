@@ -1,5 +1,5 @@
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-import { IBook } from '@/interfaces';
+import { IBook, IDetailsProps } from '@/interfaces';
 import { BASE_URL } from '@/utils/const';
 import { ParsedUrlQuery } from 'querystring';
 import BookDetails from '@/components/BookDetails/BookDetails';
@@ -10,19 +10,6 @@ import Book from '@/components/Book/Book';
 
 interface Params extends ParsedUrlQuery {
   bkey: string;
-}
-
-interface IDetailsProps {
-  data: {
-    key: string;
-    title: string;
-    covers: number[] | null;
-  };
-}
-
-export interface IDataContext {
-  numFound: number;
-  books: IBook[];
 }
 
 export const getServerSideProps: GetServerSideProps<IDetailsProps> = async (
@@ -45,20 +32,17 @@ export const getServerSideProps: GetServerSideProps<IDetailsProps> = async (
 export default function Details({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
+  const router = useRouter();
+
   const id = data.key;
   const title = data.title;
-  console.log('id', id);
   let covers: number[] = [];
   if (data.covers) {
     covers = data.covers;
   }
-
-  const router = useRouter();
-
   const searchQuery = router.query.q as string;
   const booksPerPage = router.query.limit as string;
   const curentPage = router.query.num as string;
-
   const storedNumFound = localStorage.getItem('numFound');
   const storedBooks = localStorage.getItem('books');
   let books: IBook[] = [];
@@ -72,7 +56,6 @@ export default function Details({
 
   const bookList = books.map((book) => {
     const str = book.key.split('/');
-    console.log('str', str);
 
     return (
       <li key={str[2]} data-testid="list-item">
@@ -80,9 +63,8 @@ export default function Details({
           href={{
             pathname: `/${curentPage}/${str[2]}`,
             query: {
-              searchQuery: searchQuery,
-              booksPerPage: booksPerPage,
-              curentPage: curentPage,
+              q: searchQuery,
+              limit: booksPerPage,
             },
           }}
         >
@@ -92,7 +74,6 @@ export default function Details({
     );
   });
 
-  console.log('router.query', router.query);
 
   return (
     <div>

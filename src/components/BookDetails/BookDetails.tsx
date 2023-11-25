@@ -1,26 +1,22 @@
+import { IBookDetailsProps } from '@/interfaces';
 import { useRouter } from 'next/router';
-
-interface IDetailsProps {
-  id: string;
-  title: string;
-  covers?: number[];
-  curentPage: string;
-}
 
 export default function BookDetails({
   id,
   title,
   covers,
   curentPage,
-}: IDetailsProps) {
+}: IBookDetailsProps) {
   const router = useRouter();
+  const searchQuery = router.query.q;
+  const booksPerPage = router.query.limit;
 
   return (
     <div className="col">
       <div className="col">
         <div className="card w-100 open-card">
           <div className="card-body">
-            {covers ? (
+            {covers && covers.length > 0 ? (
               <img
                 src={`https://covers.openlibrary.org/b/id/${String(
                   covers[0]
@@ -44,7 +40,12 @@ export default function BookDetails({
                 type="button"
                 data-testid="close"
                 className="btn btn-primary"
-                onClick={() => router.push(`/${curentPage}`)}
+                onClick={() => {
+                  router.push({
+                    pathname: `/${curentPage}`,
+                    query: { q: searchQuery, limit: booksPerPage },
+                  });
+                }}
               >
                 Close
               </button>

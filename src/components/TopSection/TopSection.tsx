@@ -4,12 +4,12 @@ import React, { useState } from 'react';
 export default function TopSection() {
   const router = useRouter();
 
-  const [value, setValue] = useState('red');
-  const [searchQuery, setSearchQuery] = useState('red');
+  const [value, setValue] = useState('green');
+  const [searchQuery, setSearchQuery] = useState('green');
   const [isValid, setIsValid] = useState(true);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [booksPerPage, setBooksPerPage] = useState<string>('10');
-  const booksPerPageArray: string[] = ['5', '10', '20'];
+  const [booksPerPage, setBooksPerPage] = useState<string>('4');
+  const booksPerPageArray: string[] = ['4', '6', '10'];
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setValue(e.target.value);
@@ -40,16 +40,6 @@ export default function TopSection() {
       query: { q: searchQuery, limit: e.target.value },
     });
   }
-
-  // const booksPerPageSection = () => {
-  //   const list = booksPerPageArray.map((item, index) => (
-  //     <option key={index} className="text-bg-light fs-5 p-2" value={item}>
-  //       {item}
-  //     </option>
-  //   ));
-
-  //   return list;
-  // };
 
   return (
     <>

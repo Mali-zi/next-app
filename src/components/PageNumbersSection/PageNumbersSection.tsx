@@ -10,7 +10,6 @@ export default function PageNumbersSection({
   const router = useRouter();
 
   const pageAmount = Math.ceil(Number(numFound) / Number(booksPerPage));
-  console.log('booksPerPage', booksPerPage);
   let pageArray: string[] = [];
   for (let i = 0; i < pageAmount; i++) {
     pageArray.push((i + 1).toString());

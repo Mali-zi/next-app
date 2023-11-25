@@ -57,3 +57,30 @@ export interface Link {
   type: Type;
 }
 
+export interface IBookDetailsProps {
+  id: string;
+  title: string;
+  covers?: number[];
+  curentPage: string;
+}
+
+export interface IDetailsProps {
+  data: {
+    key: string;
+    title: string;
+    covers: number[] | null;
+  };
+}
+
+export interface IDataContext {
+  numFound: number;
+  books: IBook[];
+}
+
+export interface IProps {
+  numFound: number;
+  books: IBook[];
+}
+
+
+

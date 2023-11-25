@@ -24,7 +24,6 @@ export default function ResultSection() {
 
   const bookList = books.map((book) => {
     const str = book.key.split('/');
-    console.log('str', str);
 
     return (
       <li key={str[2]} data-testid="list-item">
@@ -32,9 +31,8 @@ export default function ResultSection() {
           href={{
             pathname: `/${curentPage}/${str[2]}`,
             query: {
-              searchQuery: searchQuery,
-              booksPerPage: booksPerPage,
-              curentPage: curentPage,
+              q: searchQuery,
+              limit: booksPerPage,
             },
           }}
         >

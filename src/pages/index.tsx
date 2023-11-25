@@ -5,10 +5,9 @@ function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    // Always do navigations after the first render
     router.push({
       pathname: '/1',
-      query: { q: 'red', limit: '10' },
+      query: { q: 'green', limit: '4' },
     });
 }, []);
 }
