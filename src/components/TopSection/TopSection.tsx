@@ -41,15 +41,15 @@ export default function TopSection() {
     });
   }
 
-  const booksPerPageSection =() => {
-    const list = booksPerPageArray.map((item, index) => (
-      <option key={index} className="text-bg-light fs-5 p-2" value={item}>
-        {item}
-      </option>
-    ));
+  // const booksPerPageSection = () => {
+  //   const list = booksPerPageArray.map((item, index) => (
+  //     <option key={index} className="text-bg-light fs-5 p-2" value={item}>
+  //       {item}
+  //     </option>
+  //   ));
 
-    return list;
-  };
+  //   return list;
+  // };
 
   return (
     <>
@@ -66,7 +66,15 @@ export default function TopSection() {
               value={booksPerPage}
               onChange={(e) => handleBooksPerPage(e)}
             >
-              {booksPerPageSection()}
+              {booksPerPageArray.map((item, index) => (
+                <option
+                  key={index}
+                  className="text-bg-light fs-5 p-2"
+                  value={item}
+                >
+                  {item}
+                </option>
+              ))}
             </select>
           </label>
           <form onSubmit={(e) => handleSubmit(e)}>

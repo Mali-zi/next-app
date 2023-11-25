@@ -1,16 +1,20 @@
 import { useRouter } from 'next/router';
-import { IDetailsSection } from '@/interfaces';
 
 interface IDetailsProps {
-  key: string;
+  id: string;
   title: string;
   covers?: number[];
+  curentPage: string;
 }
 
-export default function BookDetails({ key, title, covers }: IDetailsProps) {
+export default function BookDetails({
+  id,
+  title,
+  covers,
+  curentPage,
+}: IDetailsProps) {
   const router = useRouter();
 
-  console.log('key', key);
   return (
     <div className="col">
       <div className="col">
@@ -33,14 +37,14 @@ export default function BookDetails({ key, title, covers }: IDetailsProps) {
               {title ? title : ' unspecified'}
             </h5>
             <h6 className="card-subtitle mb-2 text-body-secondary">
-              Key: {key}
+              Key: {id}
             </h6>
             <div className="card-body text-dark">
               <button
                 type="button"
                 data-testid="close"
                 className="btn btn-primary"
-                onClick={() => router.push(`/`)}
+                onClick={() => router.push(`/${curentPage}`)}
               >
                 Close
               </button>

@@ -19,7 +19,6 @@ export default function Layout({ children, title = 'RS School' }: LayoutProps) {
         <div className="row mt-4">
           <div className="col m-4 cover">
             <ErrorBoundary>
-              
               <TopSection />
               <main>{children}</main>
             </ErrorBoundary>
