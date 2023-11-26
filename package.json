@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "prettier --check . && next lint",
     "fix:format": "prettier --write .",
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "dependencies": {
     "@next/eslint-plugin-next": "^14.0.3",

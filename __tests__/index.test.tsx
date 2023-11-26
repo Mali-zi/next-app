@@ -1,49 +1,24 @@
-import Home from '../src/pages/index';
 import userEvent from '@testing-library/user-event';
 import { cleanup, screen, render } from '@testing-library/react';
 import TopSection from '../src/components/TopSection/TopSection';
-import mockRouter from 'next-router-mock';
-import { useRouter } from 'next/router';
+import PageNumbersSection from '../src/components/PageNumbersSection/PageNumbersSection';
+import ResultSection from '../src/components/ResultSection/ResultSection';
+import BookDetails from '../src/components/BookDetails/BookDetails';
+import Book from '../src/components/Book/Book';
 
 jest.mock('next/router', () => jest.requireActual('next-router-mock'));
 
 afterEach(cleanup);
 
-const ExampleComponent = ({ href = '' }) => {
-  const router = useRouter();
-  return (
-    <button onClick={() => router.push(href)}>
-      The current route is: ${router.asPath}
-    </button>
-  );
-}
-
 describe('TopSection', () => {
-  it('mocks the useRouter hook', () => {
-    // Set the initial url:
-    mockRouter.push("/initial-path");
-    const user = userEvent.setup();
-    
-    // Render the component:
-    render(<ExampleComponent href="/foo?bar=baz" />);
-    expect(screen.getByRole('button')).toHaveTextContent (
-      /The current route/i
-    );
-
-    // Click the button:
-    user.click(screen.getByRole('button'));
-    
-    // Ensure the router was updated:
-    expect(mockRouter).toMatchObject({ 
-      asPath: "/foo?bar=baz",
-      pathname: "/foo",
-      query: { bar: "baz" },
-    });
-  });
-
   it('Display the correct number of options', () => {
     render(<TopSection />);
     expect(screen.getAllByRole('option').length).toBe(3);
+  });
+
+  it('Display the title', () => {
+    render(<TopSection />);
+    expect(screen.findByText(/For Conan Doyle fans/i));
   });
 
   it('Display the text input', async () => {
@@ -94,5 +69,61 @@ describe('TopSection', () => {
     await user.clear(inputElement);
     await user.click(screen.getByTestId('submitButton'));
     expect(screen.getByText(/The query isn't valid/i)).toBeInTheDocument();
+  });
+});
+
+describe('PageNumbersSection', () => {
+  it('PageNumbersSection mounts properly', () => {
+    const wrapper = render(
+      <PageNumbersSection
+        numFound={'175'}
+        curentPage={'1'}
+        booksPerPage={'4'}
+        searchQuery={'red'}
+      />
+    );
+    expect(wrapper).toBeTruthy();
+    expect(wrapper.findByText(/3/i));
+  });
+});
+
+describe('ResultSection', () => {
+  it('ResultSection mounts properly', () => {
+    const wrapper = render(<ResultSection />);
+    expect(wrapper).toBeTruthy();
+  });
+});
+
+describe('ResultSection', () => {
+  it('ResultSection mounts properly', () => {
+    const wrapper = render(<ResultSection />);
+    expect(wrapper).toBeTruthy();
+  });
+});
+
+describe('BookDetails', () => {
+  it('An additional details are rendered', async () => {
+    const wrapper = render(
+      <BookDetails
+        id={'test-id'}
+        title={'test-title'}
+        covers={[123]}
+        curentPage={'1'}
+      />
+    );
+    expect(wrapper.findByText(/test-id/i));
+  });
+});
+
+const testBook = {
+  key: 'test-key',
+  title: 'test-key',
+};
+
+describe('Book', () => {
+  it('Book mounts properly', () => {
+    const wrapper = render(<Book book={testBook} />);
+    expect(wrapper).toBeTruthy();
+    expect(screen.queryByText(/Author/)).toBeInTheDocument();
   });
 });
