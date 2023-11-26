@@ -1,3 +1,4 @@
+import React from 'react';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { IProps } from '@/interfaces';
 import { BASE_URL } from '@/utils/const';
@@ -31,7 +32,7 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (
 export default function Page({
   numFound,
   books,
-}: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
+}: InferGetServerSidePropsType<typeof getServerSideProps>): React.JSX.Element {
   localStorage.setItem('numFound', JSON.stringify(numFound));
   localStorage.setItem('books', JSON.stringify(books));
 

@@ -1,6 +1,5 @@
 import { IBookDetailsProps } from '@/interfaces';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 
 export default function BookDetails({
   id,
@@ -18,13 +17,12 @@ export default function BookDetails({
         <div className="card w-100 open-card">
           <div className="card-body">
             {covers && covers.length > 0 ? (
-              <Image
+              <img
+                alt="cover"
                 src={`https://covers.openlibrary.org/b/id/${String(
                   covers[0]
                 )}-L.jpg`}
                 className="card-img-top"
-                alt="cover"
-                fill={true}
               />
             ) : (
               <h5 className="card-title text-danger">

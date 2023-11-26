@@ -1,18 +1,18 @@
 import React, { ErrorInfo, ReactNode } from 'react';
 
-interface GreeterDefaultProps {} // для декларации свойств по умолчанию
+interface GreeterDefaultProps {}
 export interface GreeterProps extends GreeterDefaultProps {
-  children: ReactNode | ReactNode[]; // указываем что children могут принадледжать к единичному типу или множеству составляющего тип ReactNode
-} // для декларации обязательных свойств + экспорт интерфейса
+  children: ReactNode | ReactNode[]; 
+}
 interface GreeterState {
   error: Error | null;
   errorInfo: ErrorInfo | null;
-} // для декларации состояния
+}
 
-// создаем псевдонимы для readonly типов представляющих...
-type DefaultProps = Readonly<GreeterDefaultProps>; // ... статическое поле defaultProps
-type Props = Readonly<GreeterProps>; // ... поле props
-type State = Readonly<GreeterState>; // ... поле state
+
+type DefaultProps = Readonly<GreeterDefaultProps>; 
+type Props = Readonly<GreeterProps>;
+type State = Readonly<GreeterState>;
 
 export default class ErrorBoundary extends React.Component<Props, State> {
   public static readonly defaultProps: DefaultProps = {};
@@ -26,7 +26,7 @@ export default class ErrorBoundary extends React.Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Catch errors in any components below and re-render with error message
+
     this.setState({
       error: error,
       errorInfo: errorInfo,
@@ -47,7 +47,7 @@ export default class ErrorBoundary extends React.Component<Props, State> {
         </div>
       );
     }
-    // Normally, just render children
+
     return this.props.children;
   }
 }

@@ -1,3 +1,4 @@
+import React from 'react';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { IBook, IDetailsProps } from '@/interfaces';
 import { BASE_URL } from '@/utils/const';
@@ -31,7 +32,7 @@ export const getServerSideProps: GetServerSideProps<IDetailsProps> = async (
 
 export default function Details({
   data,
-}: InferGetServerSidePropsType<typeof getServerSideProps>): JSX.Element {
+}: InferGetServerSidePropsType<typeof getServerSideProps>): React.JSX.Element {
   const router = useRouter();
 
   const id = data.key;

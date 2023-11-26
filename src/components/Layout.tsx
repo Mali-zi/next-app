@@ -1,3 +1,4 @@
+import React from 'react';
 import Head from 'next/head';
 import ErrorBoundary from './ErrorBoundary';
 import TopSection from '../components/TopSection/TopSection';
